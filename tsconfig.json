@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist",
+        "declaration": true,
+        "noEmitOnError": true,
+        "resolveJsonModule": true
+    },
+    "files": [
+        "db/index.js",
+    ]
+}

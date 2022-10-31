@@ -1,0 +1,26 @@
+[
+    {
+        "clubId": 1,
+        "clubName": "Arsenal"
+    },
+    {
+        "clubId": 2,
+        "clubName": "Manchester City"
+    },
+    {
+        "clubId": 3,
+        "clubName": "Tottenham"
+    },
+    {
+        "clubId": 4,
+        "clubName": "Chelsea"
+    },
+    {
+        "clubId": 5,
+        "clubName": "Manchester Utd"
+    },
+    {
+        "clubId": 6,
+        "clubName": "Brighton"
+    }
+]
