@@ -84,7 +84,7 @@ router.post('/sqlProtected', async (req, res) => {
         res.json(names);
     }
     catch (e) {
-        res.json(`INVALID SQL: SELECT * FROM games where game_name = '${gameName}'`)
+        res.json(`INVALID SQL: SELECT * FROM games where game_name = '${gameName}', error: ${e}`)
     }
 
 })

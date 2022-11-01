@@ -5,7 +5,7 @@ dotenv.config()
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL || 'postgresql://postgres:basepassword@localhost:5432/lab2',
-    ssl: false,
+    ssl: true,
     user: process.env.DB_USER,
     host: process.env.DB_HOST,
     database: 'lab2',
