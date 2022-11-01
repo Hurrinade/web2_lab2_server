@@ -70,11 +70,11 @@ router.post('/sqlProtected', async (req, res) => {
 
     // SQL injection false
     try {
-        gameName = gameName.replaceAll("'", "");
-        gameName = gameName.replaceAll("=", "");
-        gameName = gameName.replaceAll(";", "");
-        gameName = gameName.replaceAll("(", "");
-        gameName = gameName.replaceAll(")", "");
+        gameName = gameName.replace(/'/g, "");
+        gameName = gameName.replace(/=/g, "");
+        gameName = gameName.replace(/;/g, "");
+        gameName = gameName.replace(/\(/g, "");
+        gameName = gameName.replace(/\)/g, "");
         gameName = gameName.trim()
 
         console.log(gameName)
