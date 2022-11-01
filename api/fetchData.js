@@ -5,6 +5,47 @@ const db = require('../db/index')
 
 const data = require('../users/data.json');
 
+// INITAL db creation
+
+createTable()
+
+async function createTable() {
+    await db.query(
+        `
+        DROP TABLE IF EXISTS games; 
+
+        CREATE TABLE IF NOT EXISTS games
+        (
+                _id int,
+                game_name varchar(255),
+                release_date int
+        );
+        
+        INSERT INTO games(
+            _id, game_name, release_date)
+        VALUES(1, 'Call of Duty 4: Modern Warfare', 2007);
+        INSERT INTO games(
+            _id, game_name, release_date)
+        VALUES(2, 'Call of Duty 4: World at War', 2008);
+        INSERT INTO games(
+            _id, game_name, release_date)
+        VALUES(3, 'Call of Duty 4: Modern Warfare 2', 2009);
+        INSERT INTO games(
+            _id, game_name, release_date)
+        VALUES(4, 'Call of Duty 4: Black Ops', 2010);
+        INSERT INTO games(
+            _id, game_name, release_date)
+        VALUES(5, 'Call of Duty 4: Modern Warfare 3', 2011);
+        INSERT INTO games(
+            _id, game_name, release_date)
+        VALUES(6,'Call of Duty 4: Black Ops 2', 2012);
+        INSERT INTO games(
+            _id, game_name, release_date)
+        VALUES(7, 'Call of Duty: Infinite Warfare', 2016);
+        `
+    );
+}
+
 /*
     SQL INJECTION
 */

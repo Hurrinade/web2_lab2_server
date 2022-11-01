@@ -5,7 +5,4 @@
         "noEmitOnError": true,
         "resolveJsonModule": true
     },
-    "files": [
-        "db/index.js",
-    ]
 }
