@@ -3,10 +3,11 @@ const path = require('path')
 const dotenv = require('dotenv')
 const fs = require('fs')
 var cors = require('cors')
+var session = require('express-session');
 const https = require('https')
 // const { auth, requiresAuth } = require('express-openid-connect');
 var bodyParser = require('body-parser')
-
+const { v4: uuid } = require('uuid');
 dotenv.config()
 
 //Routes
@@ -17,6 +18,16 @@ const externalUrl = process.env.RENDER_EXTERNAL_URL;
 const port = externalUrl && process.env.PORT ? parseInt(process.env.PORT) : 4080
 const app = express()
 
+
+app.set('trust proxy', 1) // trust first proxy
+app.use(session({
+    genid: function (req) {
+        return uuid() // use UUIDs for session IDs
+    },
+    secret: 'lab2 implementation',
+    resave: false,
+    saveUninitialized: true,
+}))
 // const config = {
 //     authRequired: false,
 //     idpLogout: true, //login not only from the app, but also from identity provider

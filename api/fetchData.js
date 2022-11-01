@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+
 const db = require('../db/index')
 
 const data = require('../users/data.json');
@@ -21,6 +22,7 @@ router.post('/sqlNonprotected', async (req, res) => {
     }
 
 })
+
 
 router.post('/sqlProtected', async (req, res) => {
     let gameName = req.body.name;
@@ -54,25 +56,24 @@ router.get('/authNotProtected', async (req, res) => {
     const username = req.query.username;
     const password = req.query.password;
 
-    console.log(data)
+    console.log(data, username, password)
     try {
-        if (username === data.username && password === data.password) {
-            res.json("Login successful");
+        if (username === data[0].username && password === data[0].password) {
+            req.session.cookie.httpOnly = false;
+            console.log(req.session.id)
+            res.json({ msg: "Login successful", cookie: req.session.cookie });
         }
         else {
-
-            if (username !== data.username) {
-                res.json("Wrong username");
+            if (username !== data[0].username) {
+                res.json({ msg: "Wrong username" });
             }
-            else if (password !== data.password) {
-                res.json(`Wrong password on user: ${data.username}`);
+            else if (password !== data[0].password) {
+                res.json({ msg: `Wrong password on user: ${data[0].username}` });
             }
-
-
         }
     }
     catch (e) {
-        res.json(`Internal login error`)
+        res.json({ msg: `Internal login error` });
     }
 
 })
@@ -85,7 +86,7 @@ router.post('/authProtected', async (req, res) => {
     const password = req.body.password;
 
     if (onTimout) {
-        res.json(`Still no login for you`);
+        res.json({ msg: `Still no login for you` });
     }
     else if (countLoginAttempts >= 3) {
         onTimout = true;
@@ -94,29 +95,35 @@ router.post('/authProtected', async (req, res) => {
             onTimout = false
         }, 10000);
 
-        res.json(`Next 10 seconds no login for you`);
+        res.json({ msg: `Next 10 seconds no login for you` });
     }
     else {
         try {
-            if (username === data.username && password === data.password) {
+            if (username === data[1].username && password === data[1].password) {
                 countLoginAttempts = 0;
-                res.json("Login successful");
+                req.session.cookie.httpOnly = true;
+                let hour = 3600000
+                req.session.cookie.expires = new Date(Date.now() + hour)
+                req.session.cookie.maxAge = hour
+                req.session.cookie.secure = true;
+                req.session.cookie.sameSite = true;
+                res.json({ msg: "Login successful", cookie: req.session.cookie });
             }
             else {
 
-                if (username !== data.username) {
+                if (username !== data[1].username) {
                     countLoginAttempts += 1
-                    res.json("Login data is wrong");
+                    res.json({ msg: "Login data is wrong" });
                 }
-                else if (password !== data.password) {
+                else if (password !== data[1].password) {
                     countLoginAttempts += 1
-                    res.json("Login data is wrong");
+                    res.json({ msg: "Login data is wrong" });
                 }
 
             }
         }
         catch (e) {
-            res.json(`Internal login error`)
+            res.json({ msg: `Internal login error` })
         }
     }
 
