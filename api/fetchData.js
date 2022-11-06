@@ -55,8 +55,7 @@ router.post('/sqlNonprotected', async (req, res) => {
     // SQL injection true
     try {
         let names = (await db.query(`SELECT * FROM games where game_name = '${gameName}'`)).rows;
-
-        res.json(names);
+        res.json(names != null ? names : []);
     }
     catch (e) {
         res.json(`INVALID SQL: SELECT * FROM games where game_name = '${gameName}'`)
@@ -76,8 +75,6 @@ router.post('/sqlProtected', async (req, res) => {
         gameName = gameName.replace(/\(/g, "");
         gameName = gameName.replace(/\)/g, "");
         gameName = gameName.trim()
-
-        console.log(gameName)
 
         let names = (await db.query(`SELECT * FROM games where game_name = $1`, [gameName])).rows;
 
